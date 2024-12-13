@@ -1,7 +1,5 @@
 import numpy as np
 import pandas as pd
-from sklearn.metrics import jaccard_score
-from sklearn.preprocessing import MultiLabelBinarizer
 
 # Define the UML and C# metamodels
 uml_classes = {
@@ -23,7 +21,7 @@ csharp_classes = {
     "CSharpInterface": ["isFinal", "isPublic"]
 }
 
-# Flatten the attributes to compare
+# Flatten the attributes into sets for comparison
 uml_elements = {k: set(v) for k, v in uml_classes.items()}
 csharp_elements = {k: set(v) for k, v in csharp_classes.items()}
 
@@ -70,37 +68,35 @@ def calculate_metrics(predicted, real):
 # Find the best threshold dynamically
 best_threshold = 0
 best_f_measure = 0
-for threshold in np.arange(0.1, 1.0, 0.01):
+best_precision = 0
+best_recall = 0
+best_matches = set()
+
+for threshold in np.arange(0.1, 1.01, 0.01):
     predicted_matches = set(
         (uml_keys[i], csharp_keys[j]) 
         for i in range(len(uml_keys)) 
         for j in range(len(csharp_keys)) 
         if similarity_matrix[i, j] >= threshold
     )
-    _, _, f_measure = calculate_metrics(predicted_matches, real_matches)
+    
+    precision, recall, f_measure = calculate_metrics(predicted_matches, real_matches)
+    
     if f_measure > best_f_measure:
         best_f_measure = f_measure
+        best_precision = precision
+        best_recall = recall
         best_threshold = threshold
-
-# Use the best threshold to get final predicted matches
-predicted_matches = set(
-    (uml_keys[i], csharp_keys[j]) 
-    for i in range(len(uml_keys)) 
-    for j in range(len(csharp_keys)) 
-    if similarity_matrix[i, j] >= best_threshold
-)
-
-# Calculate final metrics
-precision, recall, f_measure = calculate_metrics(predicted_matches, real_matches)
+        best_matches = predicted_matches
 
 # Output results
 print("Jaccard Similarity Matrix:")
 print(similarity_df_matrix)
-print(f"\nBest Threshold: {best_threshold}")
-print(f"Precision: {precision}")
-print(f"Recall: {recall}")
-print(f"F-Measure: {f_measure}")
-
-# Output real matches for verification
+print(f"\nBest Threshold: {best_threshold:.2f}")
+print(f"Precision: {best_precision:.4f}")
+print(f"Recall: {best_recall:.4f}")
+print(f"F-Measure: {best_f_measure:.4f}")
+print(f"\nPredicted Matches at Best Threshold:")
+print(best_matches)
 print("\nReal Matches:")
 print(real_matches)

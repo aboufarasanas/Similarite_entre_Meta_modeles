@@ -1,17 +1,17 @@
 import pandas as pd
 import numpy as np
 
-# Fonction pour calculer la similarité de Jaccard entre deux ensembles
+# Function to calculate Jaccard similarity between two sets
 def jaccard_similarity(set1, set2):
-    if not set1 and not set2:  # Si les deux ensembles sont vides
+    if not set1 and not set2:  # Both sets are empty
         return 1.0
-    elif not set1 or not set2:  # Si l'un des ensembles est vide
+    elif not set1 or not set2:  # One of the sets is empty
         return 0.0
     intersection = len(set1.intersection(set2))
     union = len(set1.union(set2))
     return intersection / union
 
-# Eléments des méta-modèles PRINCE2 et Scrum
+# Elements of PRINCE2 and Scrum meta-models
 prince2_elements = {
     "BusinessCase": ["ID", "Title", "Description"],
     "ProjectBoard": ["ID", "Name", "Members"],
@@ -30,7 +30,7 @@ scrum_elements = {
     "DailyScrum": ["ID", "Date", "Notes"]
 }
 
-# Correspondances réelles (Mappings fournies)
+# Real mappings provided
 real_matches = {
     ("BusinessCase", "ProductBacklog"),
     ("ProjectBoard", "ScrumTeam"),
@@ -40,7 +40,7 @@ real_matches = {
     ("EndStageReport", "DailyScrum")
 }
 
-# Calcul de la matrice de similarité de Jaccard
+# Compute the Jaccard similarity matrix
 similarity_matrix = []
 for p_elem in prince2_elements:
     row = []
@@ -49,12 +49,12 @@ for p_elem in prince2_elements:
         row.append(similarity)
     similarity_matrix.append(row)
 
-# Conversion en DataFrame pour un affichage plus lisible
+# Convert to DataFrame for readability
 similarity_df_matrix = pd.DataFrame(similarity_matrix, 
                                     index=prince2_elements.keys(), 
                                     columns=scrum_elements.keys())
 
-# Recherche du meilleur seuil
+# Find the best threshold using F-measure
 thresholds = np.arange(0.1, 1.0, 0.1)
 best_threshold = 0
 best_f_measure = 0
@@ -82,14 +82,23 @@ for threshold in thresholds:
         best_precision = precision
         best_recall = recall
 
-# Affichage des résultats
+# Display results
 print("Jaccard Similarity Matrix:")
 print(similarity_df_matrix)
 print(f"\nBest Threshold: {best_threshold}")
-print(f"Precision: {best_precision}")
-print(f"Recall: {best_recall}")
-print(f"F-Measure: {best_f_measure}")
+print(f"Precision: {best_precision:.2f}")
+print(f"Recall: {best_recall:.2f}")
+print(f"F-Measure: {best_f_measure:.2f}")
 
-# Affichage des correspondances réelles pour vérification
+# Display real matches for verification
 print("\nReal Matches:")
 print(real_matches)
+
+# Display the matches found at the best threshold
+print("\nMatches Found at Best Threshold:")
+found_matches_at_best = set()
+for i, p_elem in enumerate(prince2_elements.keys()):
+    for j, s_elem in enumerate(scrum_elements.keys()):
+        if similarity_df_matrix.iloc[i, j] >= best_threshold:
+            found_matches_at_best.add((p_elem, s_elem))
+print(found_matches_at_best)
