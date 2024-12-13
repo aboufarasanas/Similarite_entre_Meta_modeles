@@ -1,0 +1,102 @@
+{
+    "UML": {
+        "Classes": {
+            "UMLModelElement": {
+                "Name": "String"
+            },
+            "UMLAttribute": {
+                "isFinal": "Boolean",
+                "isStatic": "Boolean",
+                "Type": "String"
+            },
+            "UMLClassifier": {
+                "isFinal": "Boolean",
+                "isPublic": "Boolean"
+            },
+            "UMLOperation": {
+                "isFinal": "Boolean",
+                "isStatic": "Boolean",
+                "returnType": "String"
+            },
+            "UMLParameter": {
+                "isFinal": "Boolean",
+                "parameterType": "String"
+            },
+            "UMLClass": {},
+            "UMLInterface": {}
+        },
+        "Relations": {
+            "HasAttributes": {
+                "source": "UMLClass",
+                "target": "UMLAttribute",
+                "multiplicity": "0..*"
+            },
+            "HasOperations": {
+                "source": "UMLClass",
+                "target": "UMLOperation",
+                "multiplicity": "0..*"
+            },
+            "HasParameters": {
+                "source": "UMLOperation",
+                "target": "UMLParameter",
+                "multiplicity": "0..*"
+            },
+            "Implements": {
+                "source": "UMLClass",
+                "target": "UMLInterface",
+                "multiplicity": "0..1"
+            }
+        }
+    },
+    "CSHARP": {
+        "Classes": {
+            "CSharpElement": {
+                "Name": "String"
+            },
+            "CSharpField": {
+                "isFinal": "Boolean",
+                "isStatic": "Boolean",
+                "Type": "String"
+            },
+            "CSharpClass": {
+                "isFinal": "Boolean",
+                "isPublic": "Boolean"
+            },
+            "CSharpMethod": {
+                "isFinal": "Boolean",
+                "isStatic": "Boolean",
+                "returnType": "String"
+            },
+            "CSharpParameter": {
+                "isFinal": "Boolean",
+                "parameterType": "String"
+            },
+            "CSharpInterface": {
+                "isFinal": "Boolean",
+                "isPublic": "Boolean"
+            }
+        },
+        "Relations": {
+            "HasFields": {
+                "source": "CSharpClass",
+                "target": "CSharpField",
+                "multiplicity": "0..*"
+            },
+            "HasMethods": {
+                "source": "CSharpClass",
+                "target": "CSharpMethod",
+                "multiplicity": "0..*"
+            },
+            "HasParameters": {
+                "source": "CSharpMethod",
+                "target": "CSharpParameter",
+                "multiplicity": "0..*"
+            },
+            "Implements": {
+                "source": "CSharpClass",
+                "target": "CSharpInterface",
+                "multiplicity": "0..1"
+            }
+        }
+    }
+}

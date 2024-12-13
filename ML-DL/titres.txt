@@ -1,0 +1,5 @@
+1. Approches de Similarité Basées sur les Réseaux Neuronaux pour le Matching entre Méta-modèles.
+
+2. Approches Hybrides : Combinaison des Algorithmes Sémantiques et Machine Learning pour le Matching.
+
+3. Algorithmes Lexicaux et Structurels pour l'Alignement Automatique des Méta-modèles

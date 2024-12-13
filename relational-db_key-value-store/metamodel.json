@@ -1,0 +1,55 @@
+{
+    "RelationalDatabaseMetaModel": {
+      "SQLElement": {
+        "attributes": {
+          "Name": "String"
+        }
+      },
+      "SQLColumn": {
+        "attributes": {
+          "Type": "String",
+          "Kind": "String"
+        },
+        "relationships": {
+          "inherits": "SQLElement",
+          "association": {
+            "target": "SQLTable",
+            "multiplicity": "0..1"
+          }
+        }
+      },
+      "SQLTable": {
+        "attributes": {},
+        "relationships": {
+          "inherits": "SQLElement"
+        }
+      }
+    },
+    "KeyValueStoreMetaModel": {
+      "KeystoreElement": {
+        "attributes": {
+          "Name": "String"
+        }
+      },
+      "KeyValue": {
+        "attributes": {
+          "Key": "String",
+          "Value": "String"
+        },
+        "relationships": {
+          "inherits": "KeystoreElement",
+          "association": {
+            "target": "Entity",
+            "multiplicity": "0..1"
+          }
+        }
+      },
+      "Entity": {
+        "attributes": {},
+        "relationships": {
+          "inherits": "KeystoreElement"
+        }
+      }
+    }
+  }
+  
